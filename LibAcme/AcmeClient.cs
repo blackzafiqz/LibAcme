@@ -31,18 +31,5 @@ public class AcmeClient
         _httpClient = httpClient;
         _logger = logger;
     }
-    private async Task<Directory> GetDirectory()
-    {
-        return await _httpClient.GetFromJsonAsync<Directory>(_config.AcmeDirectoryUrl,Utils.JsonOptions) 
-               ?? throw new InvalidOperationException("Either your provided AcmeDirectoryUrl is invalid or the ACME server is not responding correctly.");
-    }
-    public async Task <string?> GetDirectoryTnc()
-    {
-        var dir = await GetDirectory();
-        if (dir.Meta?.TermsOfService is null)
-        {
-            return null;
-        }
-        return dir.Meta.TermsOfService;
-    }
+ 
 }
