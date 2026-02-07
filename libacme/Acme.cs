@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text;
 using Directory = LibAcme.Models.Response.Directory;
 namespace LibAcme
@@ -13,6 +14,7 @@ namespace LibAcme
         private readonly Config _config;
         private readonly HttpClient _httpClient;
         private readonly ILogger _logger;
+        private RSA _rsa;
         internal Acme(Config config)
         {
             _config = config;
@@ -42,11 +44,16 @@ namespace LibAcme
         public async Task<string?> GetDirectoryTnc()
         {
             var dir = await GetDirectory();
-            if (dir.Meta?.TermsOfService is null)
-            {
-                return null;
-            }
-            return dir.Meta.TermsOfService;
+            return dir.Meta?.TermsOfService;
+        }
+        internal void CreateRsaKeyPair(int keySize)
+        {
+            _rsa = RSA.Create(keySize);
+        }
+        internal void CreateEcKeyPair(ECCurve curve)
+        {
+            
+            ECDsa.Create(ECCurve.NamedCurves.nistP256);
         }
     }
 }
