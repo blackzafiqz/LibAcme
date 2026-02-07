@@ -4,7 +4,6 @@ public record Config
 {
     public string? AcmeDirectoryUrl { get; init; }
     public string? AccountEmail { get; init; }
-    public string[]? Domains { get; init; }
-    public string? ChallengeType { get; init; }
-    public Dictionary<string, string>? ChallengeParameters { get; init; }
+    public List<DomainChallenge>? DomainChallenges { get; init; }
+    public string? AccountKeyPath { get; init; }
 } 
